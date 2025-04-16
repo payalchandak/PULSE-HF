@@ -1,0 +1,10 @@
+_target_: __main__.ECGandPriorLVEFtoLabel
+config: 
+  classification: None 
+  ecg_repr_dim: 256 # currently redunant 
+  dropout_prob: 0.3
+  label: '${dataset.config.label}'
+  lvef: '${dataset.config.lvef}'
+  ecg: '${dataset.config.ecg}'
+objective: 
+  _target_: None

@@ -1,0 +1,68 @@
+defaults:
+  - model: ECGandPriorLVEFtoLabel
+  - _self_
+
+trainer: 
+  _target_: lightning.pytorch.trainer.Trainer
+  default_root_dir: ${utils.output_dir}
+  min_epochs: 1
+  max_epochs: 40
+  deterministic: True
+  devices: [0,1,2]
+
+dataset:
+  _target_: __main__.SupervisedDataset
+  config:
+    datadir: /storage2/payal/dropbox/private/SILVER/data
+    hospital: mgh
+    label: future_1_365_any_below_40
+    ecg: 
+      storedir: /storage2/shared/ecg
+      channels: ['I', 'II', 'III', 'aVR', 'aVL', 'aVF', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6'] 
+      wavelet: False
+    lvef:
+      prior: ['days_since_diagnosis', 'initial_lvef', 'preceding_lvef', 'prior_lvef_support', 'prior_lvef_mean', 'prior_lvef_min', 'prior_lvef_max', 'prior_lvef_std', 'prior_lvef_range', 'prior_lvef_any_hfref', 'prior_lvef_all_hfref', 'prior_lvef_any_hfpef', 'prior_lvef_all_hfpef', 'prior_lvef_any_hfmref', 'prior_lvef_all_hfmref']
+  split: None 
+  
+utils:
+  seed: 140799
+  output_dir: ${hydra:runtime.output_dir}
+  work_dir: ${hydra:runtime.cwd}
+
+wandb:
+  _target_: lightning.pytorch.loggers.WandbLogger
+  project: SILVER
+  entity: payalchandak
+  name: '${dataset.config.label}'
+  resume: 'allow'
+  log_model: True
+
+optimizer: 
+  batch_size: 2048
+  num_dataloader_workers: 0
+  init_lr: 1e-5 
+  betas: # combinations (0.9, 0.999) (0.9, 0.99) (0.95, 0.999)
+    - 0.9 # 0.8 to 0.999
+    - 0.99 # 0.99 to 0.9999
+  weight_decay: 0.05
+  end_lr_frac_of_init_lr: 1e-3 # 1e-4 to 0.9
+  lr_frac_warmup_steps: 0.01 # 1e-6 to 5e-1
+  lr_decay_power: 1.0 # 0.5 to 5.0
+  num_warmup_steps: ??? 
+  num_training_steps: ??? 
+  end_lr: ??? 
+
+callbacks: 
+  - _target_: lightning.pytorch.callbacks.ModelCheckpoint
+    monitor: ???
+    mode: ???
+    dirpath: '${utils.output_dir}/checkpoints' 
+    filename: 'epoch_{epoch:03d}'
+    auto_insert_metric_name: False
+    save_last: True,
+  - _target_: lightning.pytorch.callbacks.LearningRateMonitor
+    logging_interval: step
+  - _target_: lightning.pytorch.callbacks.early_stopping.EarlyStopping
+    monitor: ???
+    mode: ???
+    patience: 20
