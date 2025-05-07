@@ -5,6 +5,7 @@
 
 **PULSE–HF** is a deep learning framework that forecasts whether a patient’s **left ventricular ejection fraction (LVEF)** will decline below **40% within one year** based on a **standard 12-lead ECG** and **prior LVEF measurements**. It is designed specifically for patients with a history of heart failure.
 
+![Figure](pulsehf.png)
 ---
 
 ## 📄 Read the Paper
@@ -38,18 +39,6 @@ PULSE–HF forecasts whether a patient's **LVEF will fall below 40%** within **1
 - 📊 **History of past LVEF values**
 
 It also includes a **Lead I version** that performs comparably—ideal for **wearables** or **home-based monitoring**.
-
----
-
-## 📈 Highlights from the Paper
-
-| Feature                        | Result                                |
-|-------------------------------|---------------------------------------|
-| **AUROC (12-lead)**           | 92.0%–92.6% across 3 hospitals        |
-| **AUROC (baseline LVEF > 40%)**| 89.0%–89.3%                            |
-| **Lead I Model AUROC**        | ~89%                                  |
-| **Model Framework**           | PyTorch, ResNet + MLP                 |
-| **Cohorts**                   | MGH, BWH, MIMIC-IV                    |
 
 ---
 
