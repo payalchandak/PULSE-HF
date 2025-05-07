@@ -42,11 +42,15 @@ It also includes a **Lead I version** that performs comparably—ideal for **wea
 
 ---
 
-## 🚀 Getting Started
+## 📜 Cite us
 
-Clone the repo:
-
-```bash
-git clone https://github.com/payalchandak/PULSE-HF.git
-cd PULSE-HF
-
+If you find this work helpful, please reference:
+```
+@article{chandak2025pulsehf,
+  title={Forecasting left ventricular systolic dysfunction in heart failure with artificial intelligence},
+  author={Chandak, Payal and Kyereme-Tuah, Abena and Hung, Judy and Gaggin, Hanna and Kohane, Isaac S. and Stultz, Collin M.},
+  journal={medRxiv},
+  year={2025},
+  doi={10.1101/2025.04.13.25325744},
+}
+```
